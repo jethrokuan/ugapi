@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "ugapi"
+version = "0.1.0"
+description = ""
+authors = ["Jethro Kuan <jethrokuan95@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.70.0"
+uvicorn = {extras = ["standard"], version = "^0.15.0"}
+beautifulsoup4 = "^4.10.0"
+requests = "^2.26.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[tool.poetry.scripts]
+serve = "ugapi.server:serve"
+serve_debug = "ugapi.server:serve_debug"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
