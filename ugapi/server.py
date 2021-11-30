@@ -8,6 +8,7 @@ import uvicorn
 import requests
 import json
 import re
+import urllib.parse
 
 from typing import List, Optional
 
@@ -22,7 +23,7 @@ app.add_middleware(
 )
 
 class SearchQuery(BaseModel):
-    name: str
+    query: str
     artist: Optional[str]
     type: Optional[str]
 
@@ -78,7 +79,7 @@ def clean_tab(tab: str) -> str:
 
 @app.post("/search")
 def search(query: SearchQuery) -> List[UGTabSearchResult]:
-    url = f"https://www.ultimate-guitar.com/search.php?search_type=title&value={query.name}"
+    url = f"https://www.ultimate-guitar.com/search.php?search_type=title&value={urllib.parse.quote(query.query)}"
     search_page = requests.get(url)
     soup = BeautifulSoup(search_page.content, features="html.parser")
     store = soup.find("div", class_="js-store").attrs["data-content"]
