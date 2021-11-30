@@ -110,14 +110,14 @@ def get_tab(query: TabQuery) -> UGTab:
     store = soup.find("div", class_="js-store").attrs["data-content"]
     store = json.loads(store)
     tab = store.get("store", {}).get("page", {}).get("data", {}).get("tab_view", {});
-    tab_meta= tab.get("meta")
+    tab_meta= tab.get("meta", {})
     return UGTab(url=query.url,
                  meta=UGTabMeta(key=tab_meta.get("tonality"),
                                 capo=tab_meta.get("capo"),
                                 difficulty=tab_meta.get("difficulty"),
-                                tuning=f"{tab_meta.get('tuning').get('name')}: {tab_meta.get('tuning').get('value')}"
+                                tuning=f"{tab_meta.get('tuning', {}).get('name')}: {tab_meta.get('tuning', {}).get('value')}"
                                 ),
-                 tab=clean_tab(tab.get("wiki_tab").get("content")),
+                 tab=clean_tab(tab.get("wiki_tab", {}).get("content")),
                  chords=list(tab.get("applicature", {}).keys()))
 
 def serve():
